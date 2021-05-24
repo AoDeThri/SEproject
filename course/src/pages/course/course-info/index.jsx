@@ -32,12 +32,11 @@ const course_info = ({ currentCourseInfo = {}, courseList = [], dispatch = () =>
   )
 
   useMount(() => {
-    console.log('准备接受数据')
+    console.log('course-info：准备接受数据')
     dispatch({
       type: 'Course/getAllCourses',
       onError,
       onFinish: () => {
-        setCurrentCourse(0)
         console.log(courseList)
       },
     })

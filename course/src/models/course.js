@@ -27,6 +27,7 @@ const defaultState = {
 }
 
 const effects = {
+  // 获取全部课程信息
   getAllCourses: generateEffect(function* (_, { call, put, select }) {
     const res = yield call(CourseServices.fetchAllCourseInfo)
     yield put({
@@ -34,44 +35,6 @@ const effects = {
       payload: res.data,
     })
   }),
-  // 获取全部课程信息
-  // getAllCourse: generateEffect(function* (_, { call, put, select }) {
-  //   console.log('开始接受数据')
-  //   const res = yield call(CourseServices.fetchAllCourseInfo)
-  //   // CourseServices.fetchAllCourseInfo()
-  //   //   .then((response) => {
-  //   //     console.log('major333')
-  //   //     console.log(response)
-  //   //     console.log('major333')
-  //   //   })
-  //   //   .catch((error) => {
-  //   //     console.log('error boy')
-  //   //   }),
-
-  //   // console.log(res.data)
-  //   yield put({
-  //     type: 'setCourseList',
-  //     payload: res.data,
-  //   })
-  //   const courseList = yield select((state) => state.Course.courseList)
-  //   console.log(courseList)
-  //   const currentCourse = courseList[0]
-
-  //   if (currentCourse == undefined) {
-  //     console.log(currentCourse)
-  //   } else {
-  //     const courseId = yield select((state) => state.Course.currentCourseInfo.courseId)
-  //     if (courseId == -1) {
-  //       const res2 = yield call(CourseServices.fetchOneCourseInfo, currentCourse)
-  //       yield put({
-  //         type: 'setCurrentCourse',
-  //         payload: res2.data,
-  //       })
-  //     }
-  //     // const currentCourseInfo = yield select((state) => state.Course.currentCourseInfo)
-  //     // console.log(currentCourseInfo)
-  //   }
-  // }),
 
   // FIXME: can't get the courseList using students' account
   // 获取当前课程信息
@@ -131,13 +94,6 @@ const effects = {
     const newCourseInfo = yield call(CourseServices.publishCourse, newCourseInfoCopy)
 
     console.log(newCourseInfo)
-    // res = yield CourseServices.publishCourse(newCourseInfoCopy)
-    //   .then((response) => {
-    //     console.log(response)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
 
     yield call(CourseServices.publishGradeWeight, newCourseInfo)
     const gradeWeight = yield call(CourseServices.fetchGradeWeight, newCourseInfo)
@@ -153,7 +109,6 @@ const effects = {
 
   // 编辑课程信息
   updateSomeCourse: generateEffect(function* ({ payload, successHandler }, { call, put }) {
-    console.log('开始更新数据')
     const newValues = cloneDeep(payload)
     const oldKeys = Object.keys(payload)
     for (let i = 0; i < oldKeys.length; i++) {
