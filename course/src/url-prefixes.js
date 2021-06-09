@@ -25,3 +25,9 @@ export const API_HOMEWORK_PREFIX = '/api/v1/lecture/course-homework'
 export const API_ANNOUNCEMENT_PREFIX = '/api/v1/course-bulletin'
 
 export const API_FILE_PREFIX = '/api/v1/course-database/course-file-database'
+
+export const API_GRADE_PREFIX = '/api/v1/grade'
+
+export const API_GRADE_WEIGHT_PREFIX = '/api/v1/grade/gradeweight'
+
+export const API_GRADE_ALLGRADE_PREFIX = '/api/v1/grade/grades'

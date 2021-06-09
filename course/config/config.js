@@ -180,7 +180,8 @@ export default defineConfig({
                       name: '成绩看板',
                       icon: 'smile',
                       path: '/grade/analysis',
-                      component: './dashboard/teacherDashboard',
+                      component: './grade/grade-weight',
+                      authority: ['teacher', 'teachingAssistant'],
                     },
                     {
                       name: '我的成绩',
