@@ -36,7 +36,6 @@ const grade_weight = ({courseId = -1, gradeWeight = {}, dispatch = () => {}}) =>
 
   useMount(() => {
     fetchGradeWeight()
-    console.log(gradeWeight)
   })
 
   const updateGradeWeight = (values) =>{

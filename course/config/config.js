@@ -194,7 +194,7 @@ export default defineConfig({
                       name: '我的成绩',
                       icon: 'smile',
                       path: '/grade/mygrade',
-                      component: './dashboard/studentDashboard',
+                      component: './grade/mygrade',
                     },
                   ],
                 },
