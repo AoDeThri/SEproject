@@ -184,6 +184,13 @@ export default defineConfig({
                       authority: ['teacher', 'teachingAssistant'],
                     },
                     {
+                      name: '所有成绩',
+                      icon: 'smile',
+                      path: './grade/grades',
+                      component: './grade/grades',
+                      authority: ['teacher', 'teachingAssistant'],
+                    },
+                    {
                       name: '我的成绩',
                       icon: 'smile',
                       path: '/grade/mygrade',

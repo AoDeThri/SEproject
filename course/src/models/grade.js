@@ -38,7 +38,7 @@ const effects = {
     const res = yield call(GradeServices.fetchAllGrades, payload)
     // TODO
     yield put({
-      type: 'setGrades',
+      type: 'setGradesList',
       payload: res.data,
     })
 
