@@ -4,6 +4,7 @@ import ProCard from '@ant-design/pro-card'
 import ProTable from '@ant-design/pro-table'
 import { EditableProTable } from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons'
+import { Pie } from '@ant-design/charts';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
 import { Button, message, Form, DatePicker, Input, InputNumber, Popconfirm, Select } from 'antd'
 import CreateForm from './components/CreateForm'
@@ -96,6 +97,39 @@ const grade_weight = ({courseId = -1, gradeWeight = {}, dispatch = () => {}}) =>
     },
   ];
 
+  const pieConfig = {
+    appendPadding: 5,
+    data: (() => {
+      let a = []
+      for (const key in gradeWeight){
+        const value = Number(gradeWeight[key])
+        if (value === 0){
+          continue
+        }
+        a.push({type: key, value: value})
+      }
+      console.log('piedata')
+      console.log(a)
+      return a
+    })(),
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.6,
+    label: {
+      type: 'inner',
+      offset: '-30%',
+      content: function content(_ref) {
+        var percent = _ref.percent;
+        return ''.concat((percent * 100).toFixed(0), '%');
+      },
+      style: {
+        fontSize: 14,
+        textAlign: 'center',
+      },
+    },
+    interactions: [{ type: 'element-active' }],
+  }
+
   return(
     <PageContainer>
       <ProTable
@@ -187,6 +221,9 @@ const grade_weight = ({courseId = -1, gradeWeight = {}, dispatch = () => {}}) =>
           </Form>
         </ProCard>
       </CreateForm>
+
+      <Pie {...pieConfig} />
+
     </PageContainer>
   )
 }

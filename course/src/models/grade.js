@@ -36,9 +36,22 @@ const defaultState = {
 const effects = {
   fetchAllGrades: generateEffect(function* ({ payload }, { call, put }) {
     const res = yield call(GradeServices.fetchAllGrades, payload)
-    // TODO
     yield put({
       type: 'setGradesList',
+      payload: res.data,
+    })
+
+    yield put({
+      type: 'setIsSuccess',
+      payload: res.isSuccess,
+    })
+  }),
+
+  fetchOneGrades: generateEffect(function* ({ payload }, { call, put }) {
+    const res = yield call(GradeServices.fetchOneGrades, payload)
+    // TODO
+    yield put({
+      type: 'setGrades',
       payload: res.data,
     })
 

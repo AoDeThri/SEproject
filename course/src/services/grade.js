@@ -14,6 +14,13 @@ export const fetchAllGrades = (courseId) => {
     })
 }
 
+export const fetchOneGrades = (data) => {
+    return request(SafeUrlAssembler('/:courseId/:studentId').param({courseId:data.courseId, studentId:data.studentId}).toString(), {
+        method: 'GET',
+        prefix: API_GRADE_PREFIX,
+    })
+}
+
 // fetch course grade weitght
 export const fetchGradeWeight = (courseId) => {
     return request(SafeUrlAssembler('/:courseId').param({courseId:courseId}).toString(), {
