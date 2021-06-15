@@ -122,16 +122,6 @@ const CreateLab = (props) => {
               history.push('/labs/all')
             }),
           )
-          .catch((errors) => {
-            notification.error({
-              message: errors,
-            })
-          })
-      })
-      .catch((res) => {
-        notification.error({
-          message: res,
-        })
       })
   }
 
