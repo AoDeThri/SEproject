@@ -35,43 +35,57 @@ const defaultState = {
 
 const effects = {
   fetchAllGrades: generateEffect(function* ({ payload }, { call, put }) {
-    const res = yield call(GradeServices.fetchAllGrades, payload)
-    yield put({
-      type: 'setGradesList',
-      payload: res.data,
-    })
+    try{
+      const res = yield call(GradeServices.fetchAllGrades, payload)
+      yield put({
+        type: 'setGradesList',
+        payload: res.data,
+      })
 
-    yield put({
-      type: 'setIsSuccess',
-      payload: res.isSuccess,
-    })
+      yield put({
+        type: 'setIsSuccess',
+        payload: res.isSuccess,
+      })
+      successHandler(res)
+    } catch(e){
+      errorHandler(e)
+    }
   }),
 
   fetchOneGrades: generateEffect(function* ({ payload }, { call, put }) {
-    const res = yield call(GradeServices.fetchOneGrades, payload)
-    // TODO
-    yield put({
-      type: 'setGrades',
-      payload: res.data,
-    })
+    try{
+      const res = yield call(GradeServices.fetchOneGrades, payload)
+      yield put({
+        type: 'setGrades',
+        payload: res.data,
+      })
 
-    yield put({
-      type: 'setIsSuccess',
-      payload: res.isSuccess,
-    })
+      yield put({
+        type: 'setIsSuccess',
+        payload: res.isSuccess,
+      })
+      successHandler(res)
+    } catch(e){
+      errorHandler(e)
+    }
   }),
 
   fetchGradeWeight: generateEffect(function* ({ payload }, { call, put }) {
-    const res = yield call(GradeServices.fetchGradeWeight, payload)
-    yield put({
-      type: 'setGradeWeight',
-      payload: res.data,
-    })
+    try{
+      const res = yield call(GradeServices.fetchGradeWeight, payload)
+      yield put({
+        type: 'setGradeWeight',
+        payload: res.data,
+      })
 
-    yield put({
-      type: 'setIsSuccess',
-      payload: res.isSuccess,
-    })
+      yield put({
+        type: 'setIsSuccess',
+        payload: res.isSuccess,
+      })
+      successHandler(res)
+    } catch(e){
+      errorHandler(e)
+    }
   }),
 
   modifyGradeWeight: generateEffect(function* ({ payload }, { call }) {
