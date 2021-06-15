@@ -195,6 +195,7 @@ export default defineConfig({
                       icon: 'smile',
                       path: '/grade/mygrade',
                       component: './grade/mygrade',
+                      authority: ['student'],
                     },
                   ],
                 },
