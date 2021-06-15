@@ -1,15 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useMount } from 'react-use'
-import ProCard from '@ant-design/pro-card'
-import ProTable from '@ant-design/pro-table'
-import { EditableProTable } from '@ant-design/pro-table';
-import { PlusOutlined } from '@ant-design/icons'
 import { Column } from '@ant-design/charts';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
-import { Button, message, Form, DatePicker, Input, InputNumber, Popconfirm, Select } from 'antd'
-import FormItem from 'antd/lib/form/FormItem'
+import { PageContainer } from '@ant-design/pro-layout'
+import { message } from 'antd'
 import { connect } from 'umi'
-import onError from '@/utils/onError'
 
 const mapStateToProps = ({ Grade, Course, user }) => ({
   grades: Grade.grades,
@@ -24,8 +18,8 @@ const my_grades = ({courseId = -1, grades = {}, userId = -1, dispatch = () => {}
       type: 'Grade/fetchOneGrades',
       payload: {courseId, userId},
       errorHandler: (e) => {
-          message.error('获取课程分数失败')
-        },
+        message.error('获取课程分数失败')
+      },
       successHandler: () => {
         message.success('成功获取课程分数')
       },
