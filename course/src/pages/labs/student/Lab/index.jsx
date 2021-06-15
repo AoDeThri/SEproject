@@ -157,7 +157,7 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
           notification.success({
             message: '上传成功!',
           })
-          history.push('/labs/all')
+          history.push('/labs/list')
         })
       })
       .catch((res) => {

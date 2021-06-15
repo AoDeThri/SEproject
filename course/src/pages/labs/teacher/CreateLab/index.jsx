@@ -106,10 +106,10 @@ const CreateLab = (props) => {
         answerFileName: labCase.answerFile.file.name,
       })
       .then((res) => {
-        const firstResponse = res.headers
+        const firstResponse = res.data.data
         console.log(firstResponse)
-        const casePutUrl = firstResponse.case_file_upload_url
-        const answerPutUrl = firstResponse.answer_file_upload_url
+        const casePutUrl = firstResponse.CASE_FILE_UPLOAD_URL
+        const answerPutUrl = firstResponse.ANSWER_FILE_UPLOAD_URL
         console.log(casePutUrl)
         console.log(answerPutUrl)
         axios
@@ -122,16 +122,6 @@ const CreateLab = (props) => {
               history.push('/labs/all')
             }),
           )
-          .catch((errors) => {
-            notification.error({
-              message: errors,
-            })
-          })
-      })
-      .catch((res) => {
-        notification.error({
-          message: res,
-        })
       })
   }
 
@@ -253,7 +243,7 @@ const CreateLab = (props) => {
               }}
               action={(v) => setUploadAnswerFile(v)}
             >
-              <Button icon={<UploadOutlined />}>点击上传实验文件</Button>
+              <Button icon={<UploadOutlined />}>点击上传实验答案</Button>
             </Upload>
           </Form.Item>
 
