@@ -8,7 +8,7 @@ const proSettings = {
   "menu": {
     "locale": true
   },
-  "title": "虚仿平台",
+  "title": "互动助手",
   "pwa": false,
   "iconfontUrl": "",
   "splitMenus": false
