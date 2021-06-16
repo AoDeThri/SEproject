@@ -145,8 +145,8 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
         submissionFileName: uploadFile.name,
       })
       .then((res) => {
-        const firstResponse = res.headers
-        const putUrl = firstResponse.submission_upload_url
+        const firstResponse = res.data.data
+        const putUrl = firstResponse.SUBMISSION_UPLOAD_URL
         console.log(putUrl)
         axios({
           method: 'put',
