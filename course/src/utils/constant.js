@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 // eslint-disable-next-line
-export const IP = SERVER_IP
+export const IP = CONTAST_IP
 // eslint-disable-next-line
 export const PORT = WEBSOCKET_PORT
 
