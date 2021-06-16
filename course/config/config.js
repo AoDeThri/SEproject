@@ -490,6 +490,7 @@ export default defineConfig({
   define: {
     SERVER_IP: ip,
     WEBSOCKET_PORT: process.env.WEBSOCKET_PORT,
+    CONTAST_IP: process.env.CONTAST_IP,
     SERVER_PORT: port
   },
 })
