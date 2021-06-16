@@ -31,10 +31,17 @@ const errorHandler = ({ response }) => {
     const errorText = codeMessage[response.status] || response.statusText
     const { status, url } = response
     if (response.status !== 403) {
-      notification.error({
-        message: `请求错误 ${status}: ${url}`,
-        description: errorText,
-      })
+      if (url.indexOf('login') !== -1) {
+        notification.error({
+          message: `登录错误！`,
+          description: `用户名或密码错误！`,
+        })
+      } else {
+        notification.error({
+          message: `请求错误 ${status}: ${url}`,
+          description: errorText,
+        })
+      }
     }
   } else if (!response) {
     notification.error({
