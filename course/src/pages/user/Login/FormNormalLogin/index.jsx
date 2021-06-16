@@ -21,17 +21,17 @@ const mapDispatchToProps = () => {
     const currentUserAuthority = getAuthority()[0]
     switch (currentUserAuthority) {
       case 'student':
-        history.replace("/course/course-info")
-        break;
+        history.replace('/course/course-info')
+        break
       case 'principal':
-        history.replace("/course/course-list")
-        break;
+        history.replace('/course/course-list')
+        break
       case 'teacher':
       case 'teachingAssistant':
-        history.replace("/course/course-list-teacher")
-        break;
+        history.replace('/course/course-list-teacher')
+        break
       default:
-        break;
+        break
     }
   }
 
