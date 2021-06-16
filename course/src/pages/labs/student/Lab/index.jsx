@@ -25,6 +25,7 @@ import { useMount } from 'react-use'
 import { connect, useParams, useRouteMatch, useLocation, Link, history } from 'umi'
 import styles from './style.less'
 import axios from 'axios'
+import { getAuthority } from '@/utils/authority'
 
 const FormItem = Form.Item
 const { TextArea } = Input
@@ -48,7 +49,7 @@ const LabCase = ({ lab, user, Course }) => ({
   courseId: Course.currentCourseInfo.courseId,
 })
 
-const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () => {} }) => {
+const Lab = ({ props, labData = {}, currentUser = [], courseId, dispatch = () => {} }) => {
   const params = useParams()
   const [form] = Form.useForm()
   const [showPublicUsers, setShowPublicUsers] = React.useState(false)
@@ -79,27 +80,19 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
       title: '名称',
       dataIndex: 'fileName',
       key: 'fileName',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: '日期',
-      dataIndex: 'fileDate',
-      key: 'fileDate',
-    },
-    {
-      title: '大小',
-      dataIndex: 'fileSize',
-      key: 'fileSize',
+      render: (text) => <span>{text}</span>,
     },
     {
       title: '操作',
       key: 'fileAction',
+      dataIndex: 'fileAction',
       render: (text, record) => (
         <span>
           <a
             style={{
               marginRight: 16,
             }}
+            href= {text}
           >
             下载
           </a>
@@ -110,10 +103,14 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
   const data = [
     {
       key: '1',
-      fileName: '实验说明书.jpg',
-      fileDate: '2020-5-7',
-      fileSize: '167 KB',
+      fileName: '实验说明书',
+      fileAction: labData.CASE_FILE_DOWNLOAD_URL,
     },
+    {
+      key: '2',
+      fileName: '参考答案',
+      fileAction: labData.ANSWER_FILE_DOWNLOAD_URL,
+    }
   ]
 
   const uploadReport = (val) => {
@@ -177,6 +174,16 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
     if (publicType) setShowPublicUsers(publicType === '2')
   }
 
+  const getDdl = () => {
+    const t = labData.caseEndTimestamp
+    if(t == null || t == undefined){
+      return ''
+    }
+    const date = t.split('T')[0]
+    const m = t.split('T')[1].split('+')[0]
+    return date + " " + m
+  }
+
   useMount(() => {
     console.log(params)
     console.log(params.courseCaseId)
@@ -207,11 +214,7 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
           <h3>{labData.experimentCaseName}</h3>
           <Paragraph>{labData.experimentCaseDescription}</Paragraph>
           <div>
-            <Tag icon={<ClockCircleOutlined />}>截止时间：{labData.endTime}</Tag>
-
-            <Button key='edit' type='link' icon={<EditTwoTone />}>
-              编辑
-            </Button>
+            <Tag icon={<ClockCircleOutlined />}>截止时间：{getDdl()}</Tag>
             <Button
               key='back'
               type='link'
@@ -238,7 +241,11 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
           onValuesChange={onValuesChange}
         >
           <FormItem {...formItemLayout} label='下载附件' name='fileUpload'>
-            <Table pagination={false} columns={columns} dataSource={data} />
+            <Table 
+              pagination={false} 
+              columns={columns} 
+              dataSource={getAuthority()[0] != "student" ? data: [data[0]]} 
+            />
           </FormItem>
           <FormItem>
             <ProFormUploadDragger
@@ -249,8 +256,11 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
               disabled={
                 Date.now() < Date.parse(labData.caseStartTimestamp) ||
                 Date.now() > Date.parse(labData.caseEndTimestamp) ||
-                labData.isSubmit
+                labData.isSubmit ||
+                getAuthority()[0] != "student"
               }
+              maxCount={1}
+              multiple={false}
               action={(v) => setUploadFile(v)}
             />
           </FormItem>
@@ -291,6 +301,7 @@ const Lab = ({ props, labData = [], currentUser = [], courseId, dispatch = () =>
               type='primary'
               htmlType='submit'
               // loading={submitting}
+              disabled = { getAuthority()[0] != "student" }
             >
               提交作业
             </Button>

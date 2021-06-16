@@ -15,11 +15,12 @@ import {
   Tag,
   PageHeader,
   Typography,
+  notification,
 } from 'antd'
 import { ClockCircleOutlined, UserOutlined, EditTwoTone, RollbackOutlined } from '@ant-design/icons'
 import { connect, history, useParams } from 'umi'
 import { useMount } from 'react-use'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProForm, { ProFormUploadDragger } from '@ant-design/pro-form'
 import { PageContainer } from '@ant-design/pro-layout'
 // import PDFViewer from './PDFViewer'
@@ -47,9 +48,10 @@ const FormatData = (params, labData, form) => {
 const LabCase = ({ lab }) => ({
   isSuccess: lab.isSuccess,
   labData: lab.labCaseList,
+  submissionData: lab.labSubmissionDetail,
 })
 
-const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
+const MarkLab = ({ props, labData = [], submissionData = {}, dispatch = () => {} }) => {
   const params = useParams()
   const [form] = Form.useForm()
   const [showPublicUsers, setShowPublicUsers] = React.useState(false)
@@ -78,17 +80,12 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
       title: '名称',
       dataIndex: 'fileName',
       key: 'fileName',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <span>{text}</span>,
     },
     {
       title: '日期',
       dataIndex: 'fileDate',
       key: 'fileDate',
-    },
-    {
-      title: '大小',
-      dataIndex: 'fileSize',
-      key: 'fileSize',
     },
     {
       title: '操作',
@@ -99,6 +96,7 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
             style={{
               marginRight: 16,
             }}
+            href={submissionData.ASSIGNMENT_DOWNLOAD_URL}
           >
             下载
           </a>
@@ -106,6 +104,9 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
       ),
     },
   ]
+
+  useEffect(() => {
+  }, [submissionData])
 
   const onFinish = (form) => {
     const data = FormatData(params, labData, form)
@@ -136,7 +137,6 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
   }
 
   useMount(() => {
-    console.log(params)
     dispatch({
       type: 'lab/fetchSubmission',
       payload: params.submissionCaseId,
@@ -150,22 +150,27 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
     
   })  
 
+  const fileSubmitDate = () => {
+    const t = submissionData.submissionTimestamp
+    if(t == null || t == undefined){
+      return ''
+    }
+    const date = t.split('T')[0]
+    const m = t.split('T')[1].split('.')[0]
+    return date + " " + m
+  }
+
   const data = [
     {
       key: '1',
-      fileName: '实验说明书.jpg',
-      fileDate: '2020-5-7',
-      fileSize: '167 KB',
+      fileName: '学生作业',
+      fileDate: fileSubmitDate(),
     },
   ]
 
   return (
     <PageContainer title={false}>
       <Card bordered={false}>
-      {/*
-        <li>{JSON.stringify(params)}</li>
-        <li>{JSON.stringify(labData)}</li>
-      */}
         <div style={{textAlign:'center', width:'80%', paddingLeft:'12%',margin:'20px'}}>
           <h2>{labData.experimentName}</h2>
           <h3>{labData.experimentCaseName}</h3>
@@ -196,6 +201,10 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
           initialValues={{
             score: '0',
             comments: ''
+          }}
+          initialValues = {{
+            score: submissionData.submissionScore,
+            comments: submissionData.submissionComments,
           }}
         >
           <FormItem {...formItemLayout} label='下载实验报告' name='labSubmitFile'>
@@ -229,29 +238,12 @@ const MarkLab = ({ props, labData = [], dispatch = () => {} }) => {
               rows={4}
             />
           </FormItem>
-          {/*
-          <FormItem
-            {...submitFormLayout}
-            style={{
-              marginTop: 48,
-            }}
-          >*/}
             <Button
               type='primary'
               htmlType='submit'
             >
               确认批改
             </Button>
-            {/*
-            <Button
-              style={{
-                marginLeft: 16,
-              }}
-            >
-              下一份
-            </Button>
-          
-          </FormItem>*/}
         </Form>
       </Card>
     </PageContainer>
