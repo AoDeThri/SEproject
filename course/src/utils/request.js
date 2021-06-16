@@ -30,7 +30,7 @@ const errorHandler = ({ response }) => {
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText
     const { status, url } = response
-    if (response.status !== 403 || response.status !== 404) {
+    if (response.status !== 403 && response.status !== 404) {
       if (url.indexOf('login') !== -1) {
         notification.error({
           message: `登录错误！`,

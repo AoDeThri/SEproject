@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout'
 import { Input, Button, Table, Modal, Space, Upload, message } from 'antd'
 import formatTime from '@/utils/formatTime'
-import {connect} from 'umi'
-import {Link} from 'react-router-dom'
-import { useMount } from 'react-use';
-import onError from '@/utils/onError';
-import ProTable from '@ant-design/pro-table';
+import { connect } from 'umi'
+import { Link } from 'react-router-dom'
+import { useMount } from 'react-use'
+import onError from '@/utils/onError'
+import ProTable from '@ant-design/pro-table'
 
 const port = SERVER_PORT
 
@@ -34,21 +34,21 @@ const FormatData = (fileList) => {
 
 const FileList = ({
   fileList = [],
-  dispatch = () => { },
+  dispatch = () => {},
   courseId = courseId,
   url = '',
-  currentUser = currentUser
+  currentUser = currentUser,
 }) => {
   const [loading, setLoading] = useState(true)
-  const [fileId, setFileId ] = useState()
+  const [fileId, setFileId] = useState()
   const ref = useRef()
   const [fileInfo, setFileInfo] = useState({
-    fileDisplayName: "test",
-    fileComment: "test",
+    fileDisplayName: 'test',
+    fileComment: 'test',
     fileUploader: currentUser,
   })
 
-  //获得当前文件列表
+  // 获得当前文件列表
   const getFileList = () => {
     console.log('test')
     dispatch({
@@ -62,7 +62,7 @@ const FileList = ({
   }
 
   useMount(() => {
-    if(courseId != -1){
+    if (courseId != -1) {
       getFileList()
     }
   })
@@ -70,16 +70,15 @@ const FileList = ({
   useEffect(() => {
     getFileList()
   }, [courseId])
-  
+
   const columns = [
     {
       title: '文件名称',
       dataIndex: 'name',
       width: '15%',
       render: (_, record) => {
-        var addr=`http://localhost:${port}/api/v1/course-database/course-file-database/course/${courseId}/${record.key}/file'`
-        return <a href={addr}
-        >{record.name}</a>
+        const addr = `http://localhost:${port}/api/v1/course-database/course-file-database/course/${courseId}/${record.key}/file`
+        return <a href={addr}>{record.name}</a>
       },
     },
     {
@@ -91,15 +90,14 @@ const FileList = ({
       title: '上传日期',
       dataIndex: 'createTime',
       width: '15%',
-    }
+    },
   ]
 
   return (
     <PageContainer>
       <ProTable
         headerTitle='文件列表'
-        toolBarRender={() => [
-        ]}
+        toolBarRender={() => []}
         // actionRef={ref}
         search={false}
         dataSource={FormatData(fileList)}
